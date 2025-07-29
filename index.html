@@ -1,0 +1,546 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<title>ST-GDance</title>
+    <style>
+        body {
+            background-color:#ffffff;
+            margin: 0;
+            padding: 0;
+        }
+    
+        header {
+            color: #000000;       
+            padding: 20px;
+            text-align: center;
+        }
+    
+        h1 {
+            margin: 0;
+            font-size: 40px;
+        }    
+        
+        h2 {
+            padding-top: 10px; 
+            color: #3d3d3d;
+            margin: 0 auto; 
+            text-align: center;
+            font-size: 35px;
+        }
+
+        section {
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 20px;
+        }     
+    
+        section:nth-child(even) {
+            background-color: #f6f6f6;
+        }
+    
+        section:nth-child(odd) {
+            background-color: #ffffff;
+        }
+    
+        h3 {
+            font-size: 25px;
+            margin: 20px 0;
+            text-align: center;
+            font-family:'Times New Roman', Times, serif;
+        }
+
+        h4 {
+            font-size: 30px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        section p {
+            font-size: 18px;
+            text-align: justify;
+            margin-left: 390px;
+            margin-right: 390px;
+            line-height: 1.5;
+            font-family: 'Noto Sans', sans-serif;
+
+        }
+    
+        .buttons a {
+            text-decoration: none;
+            color: white; 
+            background-color: #515151; 
+            border: 1px solid white; 
+            padding: 8px 16px; 
+            margin: 15px 20px; 
+            display: inline-block; 
+            font-size: 16px; 
+            transition: background-color 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .buttons a:hover {
+            background-color: #555; 
+        }
+
+        .buttons a svg {
+            vertical-align: middle; 
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    
+        .image-container img {
+            max-width: 60%;
+            height: auto;
+            margin: 10px;
+        }
+    
+        .image-container .subtitle {
+            margin-top: 10px;
+            font-size: 18px;
+            width: 50%;
+            text-align: left;
+            margin-left: 390px;
+            margin-right: 390px;
+            line-height: 1.5;
+        }
+    
+        .video-container {
+            box-sizing: border-box; 
+            margin: 0 auto; 
+            position: relative; 
+            max-width: 90%; 
+            padding: 0 0; 
+            overflow: hidden; 
+            display: flex;
+        }
+
+        .video-container video {
+            width: 100%;  
+            height: auto;  
+            border-radius: 10px; 
+        }
+    
+        .video-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+            align-items: flex-start; 
+            gap: 10px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+
+        .slider-container {
+            display: flex; 
+            transition: all 300ms ease 0s; 
+            gap: 10px;
+        }
+
+        .slider-item {
+            flex: 0 0 auto; 
+            width: calc(50% - 5px); 
+            scroll-snap-align: start; 
+        }
+
+        .slider-navigation-previous,
+        .slider-navigation-next {
+            position: absolute; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            z-index: 10;
+            cursor: pointer; 
+            background-color: #ffffff; 
+            border-radius: 50%; 
+            width: 30px; 
+            height: 30px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease; 
+        }
+
+        .slider-navigation-previous {
+            left: 0px; 
+        }
+
+        .slider-navigation-next {
+            right: 0px; 
+        }
+
+        .slider-navigation-previous svg,
+        .slider-navigation-next svg {
+            width: 15px; 
+            height: 15px;
+            fill: rgb(85, 85, 85); 
+            transition: transform 0.3s ease; 
+        }
+
+        .slider-navigation-previous:hover svg,
+        .slider-navigation-next:hover svg,
+        .slider-pagination .slider-page:hover {
+            transform: scale(1.1); 
+        }
+
+        .slider-navigation-previous:hover,
+        .slider-navigation-next:hover {
+            background-color: #ddd; 
+        }
+
+        .slider-pagination {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
+        .slider-pagination .slider-page {
+            background-color: #FFF;
+            width: 10px;  
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+            transition: transform 300ms ease;
+            cursor: pointer; 
+        }
+
+        .slider-pagination .slider-page.is-active {
+            transform: scale(1.3);
+        }
+
+        .bibtex {
+            text-align: left;
+            font-size: 16px;
+            font-family: monospace;
+            background-color: #f5f5f5;
+            overflow-x: auto;
+            padding: 5px 15px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .video-wrapper {
+                flex-direction: column;
+            }
+
+            .video-container {
+                min-width: 100%; 
+                padding: 0 10px; 
+                min-height: auto; 
+            }
+
+            .video-container video {
+                width: 100%; 
+            }
+        }
+
+    </style>
+    <style type="text/css">
+        .cubox-extension-helper-button {
+            position: absolute !important;
+            display: none;
+            width: 26px !important;
+            height: 26px !important;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #C6C6C6;
+            border-radius: 6px !important;
+            background: #fff !important;
+            z-index: 99999999999999999999 !important;
+            cursor: pointer;
+            filter: drop-shadow(1px 2px 8px rgba(0, 0, 0, 0.15));
+            transition: border-color .2s ease;
+        }
+        
+        .cubox-extension-helper-button:hover {
+            border-color: #636363;
+        }
+        
+        .cubox-extension-helper-button svg {
+            pointer-events: none;
+            opacity: .8 !important;
+            transition: opacity .2s ease;
+        }
+        
+        .cubox-extension-helper-button:hover svg {
+            opacity: 1 !important;
+        }  
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>ST-GDance: Long-Term and Collision-Free Group Choreography from Music</h1>
+        <br>
+        <div id="author-list">
+            <a>
+                Jing Xu<sup>1</sup>, 
+                Weiqiang Wang<sup>1</sup>, 
+                Cunjian Chen<sup>1†</sup>, 
+                Jun Liu<sup>2</sup>, 
+                Qiuhong Ke<sup>1</sup>
+            </a><br>
+            
+            <span style="font-size: 90%;">† Corresponding author</span>
+        </div>
+        <div id="institution-list">
+            <sup>1</sup> Department of Data Science and AI, Monash University, Melbourne, Australia<br>
+            <sup>2</sup> School of Computing and Communications, Lancaster University, UK<br>
+        </div>
+
+        <!-- Buttons -->
+        <div style="margin-top: 1.5em; display: flex; justify-content: center; gap: 20px;">
+            <a href="path/to/your-paper.pdf" target="_blank" style="
+                display: flex; align-items: center; padding: 10px 20px;
+                background-color: #444; color: white; text-decoration: none;
+                border-radius: 6px; font-size: 16px;">
+                <img src="https://img.icons8.com/ios-filled/24/ffffff/document--v1.png" style="margin-right: 10px;" />
+                Paper
+            </a>
+
+            <a href="https://github.com/YilliaJing/ST-GDance" target="_blank" style="
+                display: flex; align-items: center; padding: 10px 20px;
+                background-color: #444; color: white; text-decoration: none;
+                border-radius: 6px; font-size: 16px;">
+                <img src="https://img.icons8.com/ios-glyphs/24/ffffff/github.png" style="margin-right: 10px;" />
+                Code
+            </a>
+        </div>
+    </header>
+
+
+    <section>
+        <h2>Abstract</h2>
+        <p>Creating group choreography from music is crucial for applications in entertainment and virtual reality. However, existing methods face challenges such as high computational costs and difficulties in generating long sequences and modeling interactions between multiple dancers. To address these issues, we propose ST-GDance, a novel framework that can efficiently separate spatial and temporal dependencies. By doing this, it allows us to use lightweight graph convolutions for spatial modeling and sparse attention mechanisms for temporal modeling. Thus, our approach reduces computational complexity and ensures smooth and collision-free interactions between dancers. Experiments on the GDance dataset show that ST-GDance outperforms state-of-the-art methods, especially in long-term group dance generation tasks.
+        </p>
+    </section>
+
+    <section>
+        <h2>Generate Results</h2>
+        <!-- 第一行：2人和3人 -->
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+            <div>
+            <h4 style="text-align: center;"><span style="color: rgb(84, 84, 247);">2</span>-Dancers</h4>
+            <div class="video-container" style="width: 640px; height: 380px; overflow: hidden; border-radius: 8px;">
+                <video autoplay loop muted controls style="width: 100%; height: auto; object-fit: cover; object-position: center top;">
+                <source src="resources/generate/02.mp4" type="video/mp4">
+                </video>
+            </div>
+            </div>
+            
+            <div>
+            <h4 style="text-align: center;"><span style="color: rgb(84, 84, 247);">3</span>-Dancers</h4>
+            <div class="video-container" style="width: 640px; height: 380px; overflow: hidden; border-radius: 8px;">
+                <video autoplay loop muted controls style="width: 100%; height: auto; object-fit: cover; object-position: center top;">
+                <source src="resources/generate/03.mp4" type="video/mp4">
+                </video>
+            </div>
+            </div>
+        </div>
+        
+        <!-- 第二行：4人和5人 -->
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <div>
+            <h4 style="text-align: center;"><span style="color: rgb(84, 84, 247);">4</span>-Dancers</h4>
+            <div class="video-container" style="width: 640px; height: 380px; overflow: hidden; border-radius: 8px;">
+                <video autoplay loop muted controls style="width: 100%; height: auto; object-fit: cover; object-position: center top;">
+                <source src="resources/generate/04.mp4" type="video/mp4">
+                </video>
+            </div>
+            </div>
+            
+            <div>
+            <h4 style="text-align: center;"><span style="color: rgb(84, 84, 247);">5</span>-Dancers</h4>
+            <div class="video-container" style="width: 640px; height: 380px; overflow: hidden; border-radius: 8px;">
+                <video autoplay loop muted controls style="width: 100%; height: auto; object-fit: cover; object-position: center top;">
+                <source src="resources/generate/05.mp4" type="video/mp4">
+                </video>
+            </div>
+            </div>
+        </div>
+  
+        
+            <div class="slider-navigation-previous">
+                <svg viewBox="0 0 50 80" xml:space="preserve">
+                    <polyline stroke-width=".5em" stroke-linecap="round" stroke-linejoin="round" points="45.63,75.8 0.375,38.087 45.63,0.375 "></polyline>
+                </svg>
+            </div>
+            <div class="slider-navigation-next">
+                <svg viewBox="0 0 50 80" xml:space="preserve">
+                    <polyline stroke-width=".5em" stroke-linecap="round" stroke-linejoin="round" points="0.375,0.375 45.63,38.087 0.375,75.8 "></polyline>
+                </svg>
+            </div>
+            <div class="slider-pagination">
+                <div class="slider-page" data-index="0"></div>
+                <div class="slider-page" data-index="1"></div>
+                <div class="slider-page" data-index="2"></div>
+                <div class="slider-page" data-index="3"></div>
+            </div>
+        </div>
+
+        
+            <div class="slider-navigation-previous">
+                <svg viewBox="0 0 50 80" xml:space="preserve">
+                    <polyline stroke-width=".5em" stroke-linecap="round" stroke-linejoin="round" points="45.63,75.8 0.375,38.087 45.63,0.375 "></polyline>
+                </svg>
+            </div>
+            <div class="slider-navigation-next">
+                <svg viewBox="0 0 50 80" xml:space="preserve">
+                    <polyline stroke-width=".5em" stroke-linecap="round" stroke-linejoin="round" points="0.375,0.375 45.63,38.087 0.375,75.8 "></polyline>
+                </svg>
+            </div>
+            <div class="slider-pagination">
+                <div class="slider-page" data-index="0"></div>
+                <div class="slider-page" data-index="1"></div>
+                <div class="slider-page" data-index="2"></div>
+                <div class="slider-page" data-index="3"></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <br>
+        <h2>Controllability</h2>
+        <div class="image-container">
+            <img src="resources/graph-control.png" alt="Image 2">
+            <p>
+                Our method allows control over the generated choreography by adjusting the edge weights of the underlying interaction graph. As shown in the figure, when the graph is fully connected with uniform weights, the generated dancers tend to exhibit highly synchronized movements and maintain equal pairwise distances in their positions. This demonstrates the flexibility of our spatial modeling in influencing group formation and motion coherence. In summary, our method demonstrates the potential for node-level graph control, enabling fine-grained influence over individual dancer behavior through structured spatial relationships.
+            <p>
+        </div>
+    </section>
+    
+    <section>
+        <h2>Framework</h2>
+        <div class="image-container">
+            <img src="resources/pipeline.png" alt="Image 2">
+            <p>
+                Our framework comprises two core components: the Spatial Modeling Block (SMB) and the Temporal Dependency Module (TDM). To reduce computational burden while ensuring realistic coordination, we first employ SMB to capture inter-dancer spatial relations through a lightweight graph convolutional network (GCN), which models spatial distances and suppresses collisions. This enables the model to learn structured formations and avoid dancer ambiguity. Then, TDM leverages a hybrid attention design combining Local Dependency Transformer (LDT) and Differential Attention to efficiently model temporal dynamics across extended sequences. These modules operate in a decoupled manner, with spatial features guiding formation consistency and temporal features ensuring motion coherence. Together, they enable scalable and collision-free group choreography generation.
+            <p>
+        </div>
+    </section>
+
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var sliderContainers = document.querySelectorAll('.video-container');
+
+            sliderContainers.forEach(function(container, containerIndex) {
+                var currentIndex = 0;
+                var sliderItems = container.querySelectorAll('.slider-item');
+                var sliderContainer = container.querySelector('.slider-container');
+                
+                var prevNav = container.querySelector('.slider-navigation-previous');
+                var nextNav = container.querySelector('.slider-navigation-next');
+                var paginationDots = container.querySelectorAll('.slider-page');
+
+                function updateSlider() {
+                    var itemWidth = container.offsetWidth / 2;
+                    sliderItems.forEach(function(item) {
+                        item.style.width = `${itemWidth}px`;
+                    });
+                    
+                    var clonedItems = container.querySelectorAll('.cloned');
+                    clonedItems.forEach(function(cloned) {
+                        cloned.remove();
+                    });
+
+                    var cloneCount = Math.ceil(container.offsetWidth / itemWidth);
+
+                    for (var i = 0; i < cloneCount; i++) {
+                        if (sliderItems[i]) {
+                            var clone = sliderItems[i].cloneNode(true);
+                            clone.classList.add('cloned');
+                            sliderContainer.appendChild(clone);
+                        }
+                    }
+                    
+                    var totalItems = sliderItems.length + cloneCount;
+                    if (sliderContainer) {
+                        sliderContainer.style.width = `${totalItems * itemWidth}px`;
+                    }
+
+                    updateSliderPosition(currentIndex);
+                }
+
+                function updateSliderPosition(index) {
+                    if (!sliderContainer) {
+                        console.log('sliderContainer is null');
+                        return;
+                    }
+
+                    var itemWidth = container.offsetWidth / 2; 
+                    var newTranslateX = -(index * itemWidth);
+                    sliderContainer.style.transform = `translateX(${newTranslateX}px)`;
+                }
+
+                function updatePagination(index) {
+                    paginationDots.forEach(function(dot, dotIndex) {
+                        dot.classList.toggle('is-active', dotIndex === index);
+                    });
+                }
+
+                if (prevNav) {
+                    prevNav.addEventListener('click', function() {
+                        console.log("Left arrow clicked");
+                        currentIndex = (currentIndex > 0) ? currentIndex - 1 : sliderItems.length - 1;
+                        updateSliderPosition(currentIndex);
+                        updatePagination(currentIndex);
+                    });
+                }
+
+                if (nextNav) {
+                    nextNav.addEventListener('click', function() {
+                        console.log("Right arrow clicked");
+                        currentIndex = (currentIndex < sliderItems.length - 1) ? currentIndex + 1 : 0;
+                        updateSliderPosition(currentIndex);
+                        updatePagination(currentIndex);
+                    });
+                }
+
+                paginationDots.forEach(function(dot, index) {
+                    dot.addEventListener('click', function() {
+                        currentIndex = index;
+                        updateSliderPosition(currentIndex);
+                        updatePagination(currentIndex);
+                    });
+                });
+
+                updateSlider();
+
+                window.addEventListener('resize', updateSlider);
+            });
+        });
+
+    </script>
+
+</body>
+
+<div>
+    <div class="cubox-extension-helper-button" style="display: none;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_1219_9015)">
+                <mask id="mask0_1219_9015" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="1" y="1" width="16" height="16">
+                    <path d="M9.77158 1.35001C13.0094 1.35001 14.6283 1.35001 15.6341 2.35586C16.64 3.36172 16.64 4.98062 16.64 8.21842V9.77158C16.64 13.0094 16.64 14.6283 15.6341 15.6341C14.6283 16.64 13.0094 16.64 9.77158 16.64H8.21842C4.98062 16.64 3.36172 16.64 2.35586 15.6341C1.35001 14.6283 1.35001 13.0094 1.35001 9.77158L1.35001 8.21842C1.35001 4.98062 1.35001 3.36172 2.35586 2.35586C3.36172 1.35001 4.98062 1.35001 8.21842 1.35001L9.77158 1.35001Z" fill="#D9D9D9"></path>
+                </mask>
+                <g mask="url(#mask0_1219_9015)">
+                    <ellipse cx="8.52658" cy="11.8882" rx="0.433911" ry="0.508873" fill="black"></ellipse>
+                    <ellipse cx="6.0803" cy="11.8883" rx="0.433911" ry="0.508873" fill="black"></ellipse>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.6727 14.412C14.6047 18.3796 12.1926 18.3772 9.0904 18.3743L8.832 18.3741C5.60628 18.3741 3.93861 17.6814 3.93861 14.161C3.93861 10.4926 5.60628 7.76974 8.832 7.76974C12.0577 7.76974 14.6727 10.7436 14.6727 14.412ZM9.8879 11.8935C9.8879 12.5374 9.40796 13.0594 8.81593 13.0594C8.2239 13.0594 7.74397 12.5374 7.74397 11.8935C7.74397 11.2496 8.2239 10.7276 8.81593 10.7276C9.40796 10.7276 9.8879 11.2496 9.8879 11.8935ZM6.33438 13.0593C6.907 13.0593 7.3712 12.5374 7.3712 11.8935C7.3712 11.2496 6.907 10.7276 6.33438 10.7276C5.76176 10.7276 5.29756 11.2496 5.29756 11.8935C5.29756 12.5374 5.76176 13.0593 6.33438 13.0593Z" fill="black"></path>
+                </g>
+                <path d="M9.77158 2.00975C11.4091 2.00975 12.5709 2.01115 13.4519 2.1296C14.314 2.2455 14.8077 2.46246 15.1676 2.82237C15.5275 3.18229 15.7445 3.67605 15.8604 4.53807C15.9789 5.41908 15.9803 6.58087 15.9803 8.21842V9.77158C15.9803 11.4091 15.9789 12.5709 15.8604 13.4519C15.7445 14.314 15.5275 14.8077 15.1676 15.1676C14.8077 15.5275 14.314 15.7445 13.4519 15.8604C12.5709 15.9789 11.4091 15.9803 9.77158 15.9803H8.21842C6.58087 15.9803 5.41908 15.9789 4.53807 15.8604C3.67605 15.7445 3.18229 15.5275 2.82237 15.1676C2.46246 14.8077 2.2455 14.314 2.1296 13.4519C2.01115 12.5709 2.00975 11.4091 2.00975 9.77158V8.21842C2.00975 6.58087 2.01115 5.41908 2.1296 4.53807C2.2455 3.67605 2.46246 3.18229 2.82237 2.82237C3.18229 2.46246 3.67605 2.2455 4.53807 2.1296C5.41908 2.01115 6.58087 2.00975 8.21842 2.00975H9.77158Z" stroke="black" stroke-width="1.3195"></path>
+            </g>
+            <defs>
+                <clipPath id="clip0_1219_9015">
+                    <rect width="15.29" height="15.29" fill="white" transform="translate(1.35001 1.35001)"></rect>
+                </clipPath>
+            </defs>
+        </svg>
+    </div>
+</div>
+
+</html>
